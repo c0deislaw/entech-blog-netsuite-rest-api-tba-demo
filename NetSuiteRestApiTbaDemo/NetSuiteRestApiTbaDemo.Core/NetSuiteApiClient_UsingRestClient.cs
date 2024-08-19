@@ -37,19 +37,30 @@ namespace NetSuiteRestApiTbaDemo.Core
             return client;
         }
 
-        public async Task<List<string>> FindCustomerIds(int limit)
+        public async Task<NsFindIdsResponse> FindCustomerIds()
         {
-            var url = _config.ApiRoot + "/customer?limit=" + limit;
+            var url = _config.ApiRoot;
 
-            var httpRequest = new RestRequest(url, Method.Get);
-          
+            var httpRequest = new RestRequest(url, Method.Post);
+            var requestBody = new
+            {
+                firstname = "Company test 5.0",
+                lastname = "Test5.0",
+                email = "customer5@company.com",
+                category = "20"
+            };
+
+            httpRequest.AddHeader("Content-Type", "application/json");
+            httpRequest.AddJsonBody(requestBody);
+
+
             var httpResponse = await _restClient.ExecuteAsync(httpRequest);
             var responseJson = httpResponse.Content;
 
             var response =
                 JsonSerializer.Deserialize<NsFindIdsResponse>(responseJson);
+            return response;
 
-            return response.items.Select(i => i.id).ToList();
         }
 
         public async Task<NsCustomer> GetCustomer(int customerId)

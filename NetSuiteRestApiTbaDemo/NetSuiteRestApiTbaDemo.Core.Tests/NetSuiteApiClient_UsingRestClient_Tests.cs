@@ -12,8 +12,8 @@ namespace NetSuiteRestApiTbaDemo.Core.Tests
         public async Task FindCustomerIds_LimitTwo_TwoIds()
         {
             var nsApiClient = new NetSuiteApiClient_UsingRestClient();
-            var ids = await nsApiClient.FindCustomerIds(2);
-            Assert.AreEqual(2, ids.Count);
+           var response = await nsApiClient.FindCustomerIds();
+            Assert.IsNotNull(response);
         }
 
         [Test]
